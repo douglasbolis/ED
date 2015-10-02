@@ -9,7 +9,7 @@
 int calculaExpo(int base, int expo) {
 	int res = 1, i;
 
-	for (i = 1; i <= expo; i++) {
+	for (i = 0; i < expo; i++) {
 		res *= base;
 	}
 
