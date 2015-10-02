@@ -6,8 +6,46 @@
   */
 
 int main() {
-	float mat[3][3];
+	int i, j;
+	int l = 3, c = 3;
+	float maiorValor = -1000000.0;
+	float mat[l][c];
 
-	
+	for (i = 0; i < l; i++) {
+		for (j = 0; j < c; j++) {
+			printf("\nInforme o valor para A[%d][%d] na matriz: ", i, j);
+			scanf("%f", &mat[i][j]);
+			if (mat[i][j] > maiorValor) {
+				maiorValor = mat[i][j];
+			}
+		}
+	}
+
+	mat = normaliza_matriz(mat, l, c, maiorValor);
+	imprime_matriz(mat, l, c);
+
 	return 0;
+}
+
+float normaliza_matriz(float mat, int l, int c, float maiorValor) {
+	int i, j;
+
+	for (i = 0; i < l; i++) {
+		for (j = 0; j < c; j++) {
+			mat[i][j] = mat[i][j] / maiorValor;
+		}
+	}
+
+	return mat;
+}
+
+void imprime_matriz(float mat, int l, int c) {
+	int i, j;
+
+	for (i = 0; i < l; i++) {
+		printf("\n");
+		for (j = 0; j < c; j++) {
+			printf("%f ", mat[i][j]);
+		}
+	}
 }
