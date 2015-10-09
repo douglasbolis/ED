@@ -1,20 +1,11 @@
 #include <stdio.h>
+#include <lib.h>
 
 /**
   * Escreva um programa que gera e escreve os quatro primeiros números perfeitos.
   * Um número perfeito é aquele que é igual à soma dos seus divisores 
   * (por exemplo, 6, 28, etc)
   */
-
-int calculaExpo(int base, int expo) {
-	int res = 1, i;
-
-	for (i = 0; i < expo; i++) {
-		res *= base;
-	}
-
-	return res;
-}
 
 main() {
 	int numPerfect[4];

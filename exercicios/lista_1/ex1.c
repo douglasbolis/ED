@@ -1,18 +1,11 @@
 #include <stdio.h>
+#include "lib.h"
 
 /**
   * Faça um programa que leia o nome de uma pessoa, a quantidade de provas realizadas por ela e suas
   * respectivas notas. O programa deve apresentar ao final o nome e a m´edia das notas obtidas pela
   * pessoa.
   */
-
-void imprimeMedia(char* nome, float media) {
-	printf("\n%s, você ficou com média de %.2f pontos.\n", nome, media);
-}
-
-float calculaMedia(float total, int qtd) {
-	return total/qtd;
-}
 
 main() {
 	char nome[50];

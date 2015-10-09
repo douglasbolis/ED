@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <lib.h>
 
 /**
   *	Faça um programa que leia do teclado uma matriz 3 × 3 de float e normalize os seus valores,
@@ -7,27 +8,6 @@
 
 #define LINHA 3
 #define COLUNA 3
-
-void normaliza_matriz(float mat[LINHA][COLUNA], float maiorValor) {
-	int i, j;
-
-	for (i = 0; i < LINHA; i++) {
-		for (j = 0; j < COLUNA; j++) {
-			mat[i][j] = mat[i][j] / maiorValor;
-		}
-	}
-}
-
-void imprime_matriz(float mat[LINHA][COLUNA]) {
-	int i, j;
-
-	for (i = 0; i < LINHA; i++) {
-		for (j = 0; j < COLUNA; j++) {
-			printf("%.2f ", mat[i][j]);
-		}
-		printf("\n");
-	}
-}
 
 int main() {
 	int i, j;

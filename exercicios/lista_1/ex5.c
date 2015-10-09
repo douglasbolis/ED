@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <lib.h>
 
 /*
 Escreva um algoritmo que lê do teclado uma matriz 4×2 de inteiros. A seguir, troque os elementos
@@ -8,29 +9,6 @@ Imprima a matriz resultante.
 
 #define LINHA 4
 #define COLUNA 2
-
-void inverte_linhas(int mat[LINHA][COLUNA]) {
-	int i, j, aux = 0;
-
-	for (i = 0; i < LINHA; i = i+2) {
-		for (j = 0; j < COLUNA; j++) {
-			aux = mat[i][j];
-			mat[i][j] = mat[i+1][j];
-			mat[i+1][j] = aux;
-		}
-	}
-}
-
-void imprime_matriz(int mat[LINHA][COLUNA]) {
-	int i, j;
-
-	for (i = 0; i < LINHA; i++) {
-		for (j = 0; j < COLUNA; j++) {
-			printf("%d ", mat[i][j]);
-		}
-		printf("\n");
-	}
-}
 
 int main() {
 	int i, j;
@@ -43,8 +21,8 @@ int main() {
 		}
 	}
 
-	inverte_linhas(mat);
-	imprime_matriz(mat);
+	inverte_linhas_int(mat);
+	imprime_matriz_int(mat);
 	
 	return 0;
 }
