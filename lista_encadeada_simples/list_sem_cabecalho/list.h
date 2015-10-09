@@ -4,10 +4,7 @@
 #ifndef list_h
 #define list_h
 
-struct cell {
-	int info;
-	struct cell *next;
-};
+struct cell;
 
 typedef struct cell Cell;
 typedef Cell List;

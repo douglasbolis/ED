@@ -6,12 +6,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+typedef struct cell Cell;
 struct cell {
 	int info;
-	struct cell *next;
+	Cell *next;
 };
 
-typedef struct cell Cell;
 typedef Cell List;
 
 Cell* create_cell(int info) {
