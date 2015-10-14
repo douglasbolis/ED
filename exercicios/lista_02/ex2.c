@@ -10,9 +10,10 @@ void imprime(int *v, int tam) {
 }
 
 int main() {
-	int vet[4] = {1, 2, 3, 4};
+	int tam = 5;
+	int vet[] = {13, 25, 30, 4, 2};
 
-	imprime(vet, 4);
+	imprime(vet, tam);
 
 	return 0;
 }
