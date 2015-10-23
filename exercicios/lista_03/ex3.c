@@ -1,0 +1,61 @@
+#include <stdio.h>
+
+struct telefone {
+	int DDD;
+	char num[10];
+	char tipo[7];
+};
+
+struct pessoa {
+	char nome[20];
+	struct telefone tel;
+	char end[30];
+};
+
+// Funcao para limpar o buffer do teclado.
+void clear(void) {
+  while ( getchar() != '\n' );
+}
+
+struct pessoa preenche(struct pessoa dados) {
+	printf("\n\nNome: ");
+	scanf("%[^\n]s", dados.nome); clear();
+
+	printf("\nTelefone: ");
+	printf("\n - DDD: ");
+	scanf("%d", &dados.tel.DDD); clear();
+
+	printf("\n - Número: ");
+	scanf("%[^\n]s", dados.tel.num); clear();
+
+	printf("\n - Tipo: ");
+	scanf("%[^\n]s", dados.tel.tipo); clear();
+
+	printf("\nEndereço: ");
+	scanf("%[^\n]s", dados.end); clear();
+
+	return dados;
+}
+
+void imprime(struct pessoa dados[], int qtdPessoas) {
+	int j;
+
+	for(j = 0; j < qtdPessoas; j++) {
+		printf("\n\n%dº Pessoa:\nnome: %s\ntelefone: (%d)%s %s\nendereço: %s\n", 
+			j+1, dados[j].nome, dados[j].tel.DDD, dados[j].tel.num, dados[j].tel.tipo, dados[j].end);
+	}
+}
+
+int main() {
+	int qtdPessoas = 2;
+	struct pessoa dados[qtdPessoas];
+	int i;
+
+	for (i = 0; i < qtdPessoas; i++) {
+		dados[i] = preenche(dados[i]);
+	}
+
+	imprime(dados, qtdPessoas);
+
+	return 0;
+}
