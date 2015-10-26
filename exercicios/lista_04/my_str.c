@@ -5,7 +5,7 @@
 
 // Questão_1
 struct string {
-	char v[];
+	char *v;
 	int size;
 };
 
@@ -15,12 +15,21 @@ typedef struct string String;
 // Questão_3
 String cria_string() {
 	String str = malloc(sizeof(String));
+	str.v = NULL;
+	str.size = 0;
 	return str;
 }
 
 // Questão_4
 void preenche_string(String *str, char *c, int len) {
+	int i;
 
+
+	for(i = 0; i < len; i++) {
+		str->v[i] = c[i];
+	}
+
+	str->size = i;
 }
 
 // Questão_5
