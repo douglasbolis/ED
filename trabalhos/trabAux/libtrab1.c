@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "libtrab1.h"
 
-/**
-  * Definindo novos tipos.
-  */
 typedef struct cell Cell;
 typedef struct mat Mat;
 
