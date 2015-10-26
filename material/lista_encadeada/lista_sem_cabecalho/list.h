@@ -1,8 +1,8 @@
 /* Lista Encadeada Simples - Singled-linked List */
 
 /* TAD -> ADT - Abstract Data Type */
-#ifndef list_h
-#define list_h
+#ifndef LIST_H
+#define LIST_H
 
 struct cell;
 

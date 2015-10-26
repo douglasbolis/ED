@@ -2,3 +2,9 @@
 .idea/
 .tmp
 *.o
+/trabalhos/trabalho_01/dist/
+/trabalhos/trabalho_01/build/
+
+*/**/.dep.inc
+*/**/Makefile
+*/**/nbproject/
