@@ -1,0 +1,27 @@
+ED – Estrutura de Dados – 2015/2
+T1 – 1o. Trabalho Prático de Implementação
+
+
+Arquivo libtrab1.h com as definições de tipo e os cabeçalhos das funções
+visíveis fora da lib.
+
+Arquivo libtrab1.c com todo o desenvolvimento das funções.
+
+No arquivo main.c estão todas as chamadas as funções para a soma de duas
+matrizes.
+
+Compilando o trabalho:
+$ gcc -o *.c
+
+Ou, com um arquivo de saída:
+$ gcc -o <'arquivo de saída'> *.c
+
+Ex.: 
+$ gcc -o main.o *.c
+
+
+Executando o trabalho:
+$ ./<'arquivo de saída'> <'arquivo matriz a'> <'arquivo matriz b'>
+
+Ex.:
+$ ./main.o matA.txt matB.txt

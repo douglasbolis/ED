@@ -21,6 +21,16 @@ void insere_celula(Mat*, int, int, float);
 void remove_celula(Mat*, int, int);
 
 /**
+ * Retorna a célula na linha i e coluna j da matriz
+ */
+Cell* get_celula(Mat*, int, int);
+
+/**
+  * Descobre se existe uma célula na posição (i, j)
+  */
+int posicao_existe(Mat*, int, int);
+
+/**
   *	Imprime matriz.
   */
 void imprime_matriz(Mat*);

@@ -1,26 +1,39 @@
 #include "libtrab1.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-int main() {
+Mat* busca_arquivo(Mat *matriz, char nomeArq[]) {
+    int dim, lin, col;
+    float info;
+    
+    FILE *arquivo = fopen(nomeArq, "r");
 
-	Mat *matrizA = cria_matriz(4);
-	Mat *matrizB = cria_matriz(4);
+// Verifica se retornou nulo ao abrir o arquivo.
+    if (arquivo){
+        fscanf(arquivo, "%d\n", &dim);
+        matriz = cria_matriz(dim);
+
+        while (!feof(arquivo)) {
+            fscanf(arquivo, "%d;%d;%g\n", &lin, &col, &info);
+            insere_celula(matriz, lin, col, info);
+        }
+    }
+    fclose(arquivo);
+    
+    return matriz;
+}
+int main(int argc, char **argv) {
+    
+// Verificando quantidade de arquivos na chamada de execução no terminal.
+    if (argc != 3) {
+        printf("ERROR!\nQuantidade de arquivos diferente do esperado.\n");
+    } else {
+        Mat *matrizA = NULL;
+        Mat *matrizB = NULL;
         Mat *matrizC = NULL;
-
-	insere_celula(matrizA, 1-1, 1-1, 50);
-	insere_celula(matrizA, 2-1, 1-1, 10);
-	insere_celula(matrizA, 2-1, 3-1, 20);
-	insere_celula(matrizA, 4-1, 1-1, -30);
-	insere_celula(matrizA, 4-1, 3-1, -60);
-	insere_celula(matrizA, 4-1, 4-1, 5);
         
-	insere_celula(matrizB, 1-1, 1-1, 35);
-	insere_celula(matrizB, 2-1, 1-1, 10.4);
-	insere_celula(matrizB, 2-1, 4-1, -20.5);
-	insere_celula(matrizB, 3-1, 1-1, 5);
-	insere_celula(matrizB, 3-1, 4-1, 8);
-	insere_celula(matrizB, 4-1, 2-1, 17);
-	insere_celula(matrizB, 4-1, 3-1, -60);
+        matrizA = busca_arquivo(matrizA, argv[1]);        
+        matrizB = busca_arquivo(matrizB, argv[2]);
 	
         matrizC = soma_matriz(matrizA, matrizB);
         
@@ -30,6 +43,7 @@ int main() {
 	imprime_matriz(matrizC);
         
         desaloca_matriz(matrizC);
+    }
 
-	return 0;
+    return 0;
 }
