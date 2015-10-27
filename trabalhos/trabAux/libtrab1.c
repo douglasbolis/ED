@@ -53,8 +53,7 @@ Mat* cria_matriz(int n) {
   *	Cria uma célula vazia.
   */
 Cell* cria_celula(int i, int j, float info) {
-	Cell * celula = malloc(sizeof(Cell));	
-
+	Cell * celula = malloc(sizeof(Cell));
 	celula->posI = i;
 	celula->posJ = j;
 	celula->info = info;
@@ -87,7 +86,7 @@ int posicao_existe(Mat *matriz, int i, int j) {
 
 	Cell *c = matriz->linha[i];
 // Buscando a célula na posição j da linha i.
-	while (c->nextLin != NULL && c->posJ < j) {
+	while (c != NULL && c->posJ < j) {
 		c = c->nextLin;
 	}
 
@@ -184,14 +183,19 @@ void insere_na_linha(Mat *matriz, Cell *celula, int i, int j) {
 	Cell *c = matriz->linha[i];
 
 // Buscando a célula na posição j da linha i.
-	while (c->nextLin != NULL && c->posJ < j) {
+	while (c != NULL && c->posJ < j) {
 		c = c->nextLin;
 	}
 
 // Verificando se a execução saiu do while por causa de c->nextLin == NULL.
 	if (c == NULL) {
-		celula->nextLin = NULL;
-		c->nextLin = celula;
+		if (c == matriz->linha[i]) {
+			celula->nextLin = NULL;
+			c = celula;
+		} else {
+			celula->nextLin = NULL;
+			c->nextLin = celula;
+		}
 	} else
 // Senão, a inserção ocorrerá entre duas células.
 	if (c->nextLin->posJ > j) {
@@ -209,14 +213,19 @@ void insere_na_coluna(Mat *matriz, Cell *celula, int i, int j) {
 	Cell *c = matriz->coluna[j];
 
 // Buscando a célula na posição j da linha i.
-	while (c->nextCol != NULL && c->posI < i) {
+	while (c != NULL && c->posI < i) {
 		c = c->nextCol;
 	}
 
 // Verificando se a execução saiu do while por causa de c->nextCol == NULL.
 	if (c == NULL) {
-		celula->nextCol = NULL;
-		c->nextCol = celula;
+		if (c == matriz->coluna[j]) {
+			celula->nextCol = NULL;
+			c = celula;
+		} else {
+			celula->nextCol = NULL;
+			c->nextCol = celula;
+		}
 	} else
 // Senão, a inserção ocorrerá entre duas células.
 	if (c->nextCol->posI > i) {
@@ -240,7 +249,7 @@ void insere_celula(Mat *matriz, int i, int j, float info) {
 		atualiza_celula(matriz, i, j, info);
 	} else {
 // Criando a nova célula.
-		Cell * celula = cria_celula(i, j, info);
+		Cell *celula = cria_celula(i, j, info);
 // Com a célula já criada, agora a inserção da célula na matriz \
 // primeiro linha depois coluna, separadamente.
 		insere_na_linha(matriz, celula, i, j);
@@ -266,13 +275,18 @@ void imprime_matriz(Mat *matriz) {
 	int i, j;
 
 	Cell *atual = NULL;
+
 	printf("%d\n", matriz->lin);
 
 	for (i = 0; i < matriz->lin; i++) {
 		atual = matriz->linha[i];
+		printf("\nteste\n");
 
 		while (atual != NULL) {
-			printf("%d;%d;%f\n", atual->posI, atual->posJ, atual->info);
+			//printf("%d;%d;%.2f\n", atual->posI+1, atual->posJ+1, atual->info);
+
+			printf("%f\n", atual->info);
+			atual = atual->nextLin;
 		}
 	}
 }

@@ -4,15 +4,15 @@
 int main() {
 
 	Mat *matrizA = cria_matriz(4);
-	Mat *matrizB = cria_matriz(4);
-	Mat *matrizC = cria_matriz(4);
+	//Mat *matrizB = cria_matriz(4);
+	//Mat *matrizC = cria_matriz(4);
 
-	insere_celula(matrizA, 1, 1, 50);
-	insere_celula(matrizA, 2, 1, 10);
-	insere_celula(matrizA, 2, 3, 20);
-	insere_celula(matrizA, 4, 1, -30);
-	insere_celula(matrizA, 4, 3, -60);
-	insere_celula(matrizA, 4, 4, 5);
+	insere_celula(matrizA, 1-1, 1-1, 50);
+	insere_celula(matrizA, 2-1, 1-1, 10);
+	insere_celula(matrizA, 2-1, 3-1, 20);
+	insere_celula(matrizA, 4-1, 1-1, -30);
+	insere_celula(matrizA, 4-1, 3-1, -60);
+	insere_celula(matrizA, 4-1, 4-1, 5);
 /*
 	insere_celula(matrizB, 1, 1, 35);
 	insere_celula(matrizB, 2, 1, 10.4);
