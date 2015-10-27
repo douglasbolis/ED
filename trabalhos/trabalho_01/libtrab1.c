@@ -2,16 +2,13 @@
 #include <stdlib.h>
 #include "libtrab1.h"
 
-typedef struct cell Cell;
-typedef struct mat Mat;
-
 /**
   *	Definindo a estrutura das células da matriz.
   */
 struct cell {
 	int posI;
 	int posJ;
-	float info;
+	info_t info;
 	Cell *nextLin;
 	Cell *nextCol;
 };
@@ -42,8 +39,8 @@ Mat* cria_matriz(int n) {
 	
 // Preenchendo os vetores de linha e coluna com NULL.
 	for (i = 0; i < n; i++) {
-		matriz->linha[i] = NULL;
-		matriz->coluna[i] = NULL;
+            matriz->linha[i] = NULL;
+            matriz->coluna[i] = NULL;
 	}
 
 	return matriz;
@@ -52,7 +49,7 @@ Mat* cria_matriz(int n) {
 /**
   *	Cria uma célula vazia.
   */
-Cell* cria_celula(int i, int j, float info) {
+Cell* cria_celula(int i, int j, info_t info) {
 	Cell * celula = malloc(sizeof(Cell));
 	celula->posI = i;
 	celula->posJ = j;
@@ -67,14 +64,7 @@ Cell* cria_celula(int i, int j, float info) {
   *	Desaloca a célula.
   */
 void desaloca_celula(Cell *cell) {
-	free(cell);
-}
-
-/**
-  *	Desaloca a matriz.
-  */
-void desaloca_matriz(Mat *matriz) {
-	free(matriz);
+    free(cell);
 }
 
 /**
@@ -91,7 +81,7 @@ int posicao_existe(Mat *matriz, int i, int j) {
 	}
 
 // Verificando se a execução saiu do while por causa de c->nextLin == NULL.
-	if (c == NULL || c->nextLin->posJ > j) {
+	if (c == NULL || c->posJ > j) {
 		return 0;
 	} else {
 		return 1;
@@ -165,7 +155,7 @@ void remove_celula(Mat *matriz, int i, int j) {
 /**
   * Atualiza a celula na posição (i, j)
   */
-void atualiza_celula(Mat *matriz, int i, int j, float info) {
+void atualiza_celula(Mat *matriz, int i, int j, info_t info) {
 	Cell *c = matriz->linha[i];
 // Buscando a célula na linha i.
 	while (c->posJ < j) {
@@ -180,92 +170,133 @@ void atualiza_celula(Mat *matriz, int i, int j, float info) {
   * Descobre se existe uma célula na posição (i, j)
   */
 void insere_na_linha(Mat *matriz, Cell *celula, int i, int j) {
-	Cell *c = matriz->linha[i];
+    if (matriz->linha[i] == NULL) {
+        celula->nextLin = NULL;
+        matriz->linha[i] = celula;
+        return;
+    }
 
+    Cell *c = matriz->linha[i];
 // Buscando a célula na posição j da linha i.
-	while (c != NULL && c->posJ < j) {
-		c = c->nextLin;
-	}
+    while (c->nextLin != NULL && c->posJ < j) {
+        c = c->nextLin;
+    }
 
-// Verificando se a execução saiu do while por causa de c->nextLin == NULL.
-	if (c == NULL) {
-		if (c == matriz->linha[i]) {
-			celula->nextLin = NULL;
-			c = celula;
-		} else {
-			celula->nextLin = NULL;
-			c->nextLin = celula;
-		}
-	} else
+// Verificando se a execução saiu do while por causa de c->nextCol == NULL.
+    if (c == NULL) {
+        celula->nextLin = NULL;
+        // erro aqui (NULL não possui nextCol. rsrs)
+        c->nextLin = celula;
+    } else {
 // Senão, a inserção ocorrerá entre duas células.
-	if (c->nextLin->posJ > j) {
-		celula->nextLin = c->nextLin;
-		c->nextLin = celula;
-	}
-
-	return;
+            celula->nextLin = c->nextLin;
+            c->nextLin = celula;
+    }
 }
 
 /**
   * Descobre se existe uma célula na posição (i, j)
   */
 void insere_na_coluna(Mat *matriz, Cell *celula, int i, int j) {
-	Cell *c = matriz->coluna[j];
+    if (matriz->coluna[j] == NULL) {
+        celula->nextCol = NULL;
+        matriz->coluna[j] = celula;
+        return;
+    }
 
+    Cell *c = matriz->coluna[j];
 // Buscando a célula na posição j da linha i.
-	while (c != NULL && c->posI < i) {
-		c = c->nextCol;
-	}
+    while (c->nextCol != NULL && c->posI < i) {
+        c = c->nextCol;
+    }
 
 // Verificando se a execução saiu do while por causa de c->nextCol == NULL.
-	if (c == NULL) {
-		if (c == matriz->coluna[j]) {
-			celula->nextCol = NULL;
-			c = celula;
-		} else {
-			celula->nextCol = NULL;
-			c->nextCol = celula;
-		}
-	} else
+    if (c == NULL) {
+        celula->nextCol = NULL;
+        // erro aqui (NULL não possui nextCol. rsrs)
+        c->nextCol = celula;
+    } else {
 // Senão, a inserção ocorrerá entre duas células.
-	if (c->nextCol->posI > i) {
-		celula->nextCol = c->nextCol;
-		c->nextCol = celula;
-	}
-
-	return;
+            celula->nextCol = c->nextCol;
+            c->nextCol = celula;
+    }
 }
 
 /**
   *	Insere uma célula na posição i, j da matriz.
   */
-void insere_celula(Mat *matriz, int i, int j, float info) {
+void insere_celula(Mat *matriz, int i, int j, info_t info) {
 	if (info == 0.0) {
 // Se o valor da célula for igual a zero a célula será removida.
-		remove_celula(matriz, i, j);
+            remove_celula(matriz, i, j);
 	} else
 	if (posicao_existe(matriz, i, j)) {
 // Atualizando uma célula existente.
-		atualiza_celula(matriz, i, j, info);
+            atualiza_celula(matriz, i, j, info);
 	} else {
 // Criando a nova célula.
-		Cell *celula = cria_celula(i, j, info);
+            Cell *celula = cria_celula(i, j, info);
 // Com a célula já criada, agora a inserção da célula na matriz \
 // primeiro linha depois coluna, separadamente.
-		insere_na_linha(matriz, celula, i, j);
-		insere_na_coluna(matriz, celula, i, j);
+            insere_na_linha(matriz, celula, i, j);
+            insere_na_coluna(matriz, celula, i, j);
 	}
 	return;
+}
+
+/**
+ * 
+ */
+
+Cell* get_celula(Mat* matriz, int i, int j) {
+    if (matriz->linha[i] == NULL) {
+        return NULL;
+    }
+    
+    Cell *c = matriz->linha[i];
+    
+    while(c->nextCol != NULL && c->posJ < j) {
+        c = c->nextCol;
+    }
+    
+    if (c == NULL || c->posJ != j) {
+        return NULL;
+    }
+    return c;
 }
 
 /**
   *	Soma as duas matrizes.
   */
 Mat* soma_matriz(Mat *matrizA, Mat *matrizB) {
-	Mat *matrizC = malloc(sizeof(Mat));
+// Controle para o for,
+    int i, j;
+// Auxiliares tipo célula,
+    Cell *a = NULL;
+    Cell *b = NULL;
+// Criando nova matriz de retorno,
+    Mat *matrizC = cria_matriz(matrizA->lin);
+    
+    for (i = 0; i < matrizA->lin; i++) {
+        for (j = 0; j < matrizA->col; j++) {
+            a = get_celula(matrizA, i, j);
+            b = get_celula(matrizB, i, j);
+            
+            if (a == NULL && b == NULL) {
+                insere_celula(matrizC, i, j, 0.0);
+            } else
+            if (a == NULL) {
+                insere_celula(matrizC, i, j, b->info);
+            } else 
+            if (b == NULL) {
+                insere_celula(matrizC, i, j, a->info);
+            } else {
+                insere_celula(matrizC, i, j, a->info + b->info);
+            }
+        }
+    }    
 
-
-	return matrizC;
+    return matrizC;
 }
 
 /**
@@ -280,13 +311,32 @@ void imprime_matriz(Mat *matriz) {
 
 	for (i = 0; i < matriz->lin; i++) {
 		atual = matriz->linha[i];
-		printf("\nteste\n");
 
 		while (atual != NULL) {
-			//printf("%d;%d;%.2f\n", atual->posI+1, atual->posJ+1, atual->info);
-
-			printf("%f\n", atual->info);
+			printf("%d;%d;%g\n", atual->posI+1, atual->posJ+1, atual->info);
 			atual = atual->nextLin;
 		}
 	}
+}
+
+/**
+  *	Desaloca a matriz.
+  */
+void desaloca_matriz(Mat *matriz) {
+    int i, j;
+
+    Cell *atual = NULL;
+    
+    for (i = 0; i < matriz->lin; i++) {
+        atual = matriz->linha[i];
+
+        while (atual != NULL) {
+            j = atual->posJ;
+            atual = atual->nextLin;
+            remove_celula(matriz, i, j);
+        }
+    }
+    free(matriz->linha);
+    free(matriz->coluna);
+    free(matriz);
 }

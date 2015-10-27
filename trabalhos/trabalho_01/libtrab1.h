@@ -1,6 +1,7 @@
 #ifndef LIBTRAB1_H
 #define LIBTRAB1_H
 
+typedef float info_t;
 typedef struct cell Cell;
 typedef struct mat Mat;
 
