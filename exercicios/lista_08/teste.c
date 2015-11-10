@@ -2,5 +2,6 @@
 
 int main() {
 
-    return 0;
+    return 123;
+    return 1;
 }
