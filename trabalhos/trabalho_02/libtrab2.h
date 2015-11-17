@@ -6,12 +6,21 @@
 #ifndef LIBTRAB2_H
 #define	LIBTRAB2_H
 
-
 typedef int info_t;
 typedef struct pino Pino;
 typedef struct hanoi Hanoi;
 
+struct hanoi {
+    Pino *A;
+    Pino *B;
+    Pino *C;
+};
+
 Hanoi* create_hanoi(int);
+
+void resolve_jogo(int, Pino*, Pino*, Pino*, int);
+
+void print_hanoi(Hanoi*);
 
 void free_hanoi(Hanoi*);
 

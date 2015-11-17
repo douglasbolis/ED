@@ -7,18 +7,13 @@
 #include <stdlib.h>
 #include "libtrab2.h"
 
-#define MAX_SZ 12
+#define MAX_SZ 30
 
 // Implementação das estruturas utilizadas no jogo
 struct pino {
     info_t *v;
     int top;
-};
-
-struct hanoi {
-    Pino *A;
-    Pino *B;
-    Pino *C;
+    char id;
 };
 
 /**
@@ -58,12 +53,26 @@ info_t peek_pino(Pino *p) {
 void print_pino(Pino *p) {
     int i;
     
-    for (i = 0; i < size_pino(p); i++, printf(" %d", p->v[i]));
+    for (i = 0; i < size_pino(p); i++) {
+        printf(" %d", p->v[i]);
+    }
+}
+
+void print_hanoi(Hanoi *h) {
+    printf("\n%4c:", h->A->id);
+    print_pino(h->A);
+    printf("\n%4c:", h->B->id);
+    print_pino(h->B);
+    printf("\n%4c:", h->C->id);
+    print_pino(h->C);
+    printf("\n");
 }
 
 void inicio_jogo(Pino *pino, int qtdDisco) {
-    for (qtdDisco; qtdDisco > 0; qtdDisco--) {
-        push_pino(pino, qtdDisco);
+    int i;
+    
+    for (i = qtdDisco; i > 0; i--) {
+        push_pino(pino, i);
     }
 }
 
@@ -76,13 +85,16 @@ Pino* create_pino() {
 }
 
 Hanoi* create_hanoi(int qtdDisco) {
-    if (qtdDisco <= 0) return NULL;
+    if (qtdDisco <= 3 || qtdDisco > MAX_SZ) return NULL;
     
     Hanoi *h = malloc(sizeof(Hanoi));
     
     h->A = create_pino();
+    h->A->id = 'A';
     h->B = create_pino();
+    h->B->id = 'B';
     h->C = create_pino();
+    h->C->id = 'C';
     
     inicio_jogo(h->A, qtdDisco);
     
@@ -97,4 +109,13 @@ void free_hanoi(Hanoi *h) {
     free(h->C->v);
     free(h->C);
     free(h);
+}
+
+void resolve_jogo(int n, Pino *orig, Pino *dest, Pino *aux, int verboso) {
+    if (n == 0) return ;
+    
+    resolve_jogo(n-1, orig, aux, dest, verboso);    
+    push_pino(dest, pop_pino(orig));    
+    if (verboso) printf("\n%7s disk %d from %c to %c", "Move", n, orig->id, dest->id);
+    resolve_jogo(n-1, aux, dest, orig, verboso);         
 }
