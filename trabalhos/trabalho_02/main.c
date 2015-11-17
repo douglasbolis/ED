@@ -1,8 +1,6 @@
 /* 
  * File:   main.c
  * Author: douglas
- *
- * Created on 13 de Novembro de 2015, 07:52
  */
 
 #include <stdio.h>
@@ -12,14 +10,23 @@
 /*
  * 
  */
-/*
-int main(int argc, char** argv) {
-
-    return (EXIT_SUCCESS);
-}
-*/
-
-int main() {
+//int main(int argc, char** argv) {
+int main() {      
+    Hanoi *h = create_hanoi(3);
+    /*
+    printf("\nA:");
+    print_pino(h->A);
+    printf("\nB:");
+    print_pino(h->B);
+    printf("\nC:");
+    print_pino(h->C);
+    */
+    /*
+    if (argc == 2) {
+    }
+    */
     
+    free_hanoi(h);
+
     return 0;
 }
