@@ -1,0 +1,30 @@
+ED – Estrutura de Dados – 2015/2
+T2 – 2o. Trabalho Prático de Implementação
+
+
+Arquivo libtrab2.h com as definições de tipo e os cabeçalhos das funções
+visíveis fora da lib.
+
+Arquivo libtrab2.c com todo o desenvolvimento das funções da lib.
+
+No arquivo main.c estão todas as chamadas as funções para a criação da
+Torre de Hanoi.
+
+
+Compilando o trabalho:
+$ gcc -o *.c
+
+Ou, com um arquivo de saída:
+$ gcc -o <'arquivo de saída'> *.c
+
+Ex.: 
+$ gcc -o main.o *.c
+
+
+Executando o trabalho:
+$ ./<'arquivo de saída'> <'quantidade de discos'>
+ou
+$ ./<'arquivo de saída'> <'quantidade de discos'> -v
+
+Ex.:
+$ ./main.o 3 -v

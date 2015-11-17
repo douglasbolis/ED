@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 // e se o terceiro é '-v', que define se será impresso os passos.
     if (argc == 3 && strcmp(argv[2], "-v") == 0) {
         printf("=> Solving the Tower of Hanoi with %d disks.\n=> Initial configuration:", n);
-// Imprimindo na tela a configuração inicial do puzzle.
+// Imprimindo na tela a configuração inicial do jogo.
         print_hanoi(h);
         printf("=> Moves:");
 // A função resolve_jogo é onde está todo o processo de empilhar e desempilhar
@@ -41,11 +41,11 @@ int main(int argc, char** argv) {
 // e um int(1 no caso) para o controle de verbosidade na saída.
         resolve_jogo(n, h->A, h->B, h->C, 1);
         printf("\n=> Final configuration:");
-// Imprimindo na tela a configuração final do puzzle.
+// Imprimindo na tela a configuração final do jogo.
         print_hanoi(h);
     }
 // Aqui mesma coisa que anteriormente, mas com o int igual a 0(zero) para
-// apenas resolver o puzzle(sem verbosidade).
+// apenas resolver o jogo(sem verbosidade).
     else resolve_jogo(n, h->A, h->B, h->C, 0);
     
 // Liberando memória para as variáveis alocadas dinamicamente.
