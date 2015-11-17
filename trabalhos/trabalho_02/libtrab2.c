@@ -7,23 +7,24 @@
 #include <stdlib.h>
 #include "libtrab2.h"
 
-#define MAX_SZ 30
+// Definindo tamanho máximo dos pinos da 'Torre de Hanoi'.
+#define MAX_SZ 40
 
-// Implementação das estruturas utilizadas no jogo
+// Definindo estrutura pino
 struct pino {
     info_t *v;
     int top;
     char id;
 };
 
-/**
- * Retorna a quantidade de discos presentes no pino
- */
+// Retorna a quantidade de discos presentes no pino
 int size_pino(Pino *p) {
     return p->top+1;
 }
 
+// Empilha o disco no pino p.
 void push_pino(Pino *p, info_t disco) {
+// Caso p esteja cheio uma mensagem de erro será impressa.
     if (size_pino(p) == MAX_SZ) {
         printf("Error! O pino está completo.");
         return;
@@ -32,7 +33,9 @@ void push_pino(Pino *p, info_t disco) {
     p->v[++p->top] = disco;
 }
 
+// Desempilha o disco do topo do pino p.
 info_t pop_pino(Pino *p) {
+// Caso p esteja vazio uma mensagem de erro será impressa.
     if (size_pino(p) == 0) {
         printf("Error! O pino está vazio.");
         return 0;
@@ -41,7 +44,10 @@ info_t pop_pino(Pino *p) {
     return p->v[p->top--];
 }
 
+// Apenas retorna o disco que está no topo do pino p.
 info_t peek_pino(Pino *p) {
+// Caso p esteja vazio uma mensagem de erro será impressa
+// e retornará 0(zero) se o pino estiver vazio.
     if (size_pino(p) == 0) {
         printf("Error! O pino está vazio.");
         return 0;
@@ -50,6 +56,7 @@ info_t peek_pino(Pino *p) {
     return p->v[p->top];
 }
 
+// Imprime os discos que o pino p possue.
 void print_pino(Pino *p) {
     int i;
     
@@ -58,6 +65,7 @@ void print_pino(Pino *p) {
     }
 }
 
+// Imprime os discos de todos os pinos
 void print_hanoi(Hanoi *h) {
     printf("\n%4c:", h->A->id);
     print_pino(h->A);
@@ -68,27 +76,37 @@ void print_hanoi(Hanoi *h) {
     printf("\n");
 }
 
-void inicio_jogo(Pino *pino, int qtdDisco) {
+// Esta função é executada apenas quando uma nova torre for alocada,
+// geralmente o pino p será o pino 'A' da nova torre.
+void inicio_jogo(Pino *p, int qtdDisco) {
     int i;
     
     for (i = qtdDisco; i > 0; i--) {
-        push_pino(pino, i);
+        push_pino(p, i);
     }
 }
 
 Pino* create_pino() {
-    Pino *p = malloc(sizeof(Pino));    
+// Cria dinamicamente um pino e o retorna.
+    Pino *p = malloc(sizeof(Pino));
+// Aloca dinamicamente para caberem <MAX_SZ> discos no pino.
     p->v = malloc(MAX_SZ * sizeof(info_t));
+// <top> recebe -1 para controle do vetor de discos.
     p->top = -1;
     
     return p;
 }
 
 Hanoi* create_hanoi(int qtdDisco) {
-    if (qtdDisco <= 3 || qtdDisco > MAX_SZ) return NULL;
-    
+// Se qtdDisco for menor que 3 ou maior que MAX_SZ returna NULL.
+    if (qtdDisco < 3 || qtdDisco > MAX_SZ) return NULL;
+
+// Cria dinamicamente uma 'Torre de Hanoi'.
     Hanoi *h = malloc(sizeof(Hanoi));
-    
+
+// Chamada à função para criar um pino
+// Todos os 3(três) pinos receberão um identificador(id)
+// para fim de controle na impressão dos passos.
     h->A = create_pino();
     h->A->id = 'A';
     h->B = create_pino();
@@ -102,6 +120,8 @@ Hanoi* create_hanoi(int qtdDisco) {
 }
 
 void free_hanoi(Hanoi *h) {
+// Liberando espaço de memória para os vetores do pino
+// para os pinos da torre e para a pŕopria torre.
     free(h->A->v);
     free(h->A);
     free(h->B->v);
@@ -111,11 +131,20 @@ void free_hanoi(Hanoi *h) {
     free(h);
 }
 
-void resolve_jogo(int n, Pino *orig, Pino *dest, Pino *aux, int verboso) {
+// Aqui, literalmente, é onde o jogo é resolvido.
+void resolve_jogo(int n, Pino *orig, Pino *aux, Pino *dest, int verboso) {
+// Condição de parada:
+// Quando a quantidade de discos for 0(zero) retorna 'nada'.
     if (n == 0) return ;
     
-    resolve_jogo(n-1, orig, aux, dest, verboso);    
-    push_pino(dest, pop_pino(orig));    
+// Chamada recursiva, passando n-1 e definindo a ordem de entrada dos pinos
+// mantendo o sinal de verbosidade.
+    resolve_jogo(n-1, orig, dest, aux, verboso);
+// Inserindo no pino destino o disco removido da origem.
+    push_pino(dest, pop_pino(orig));
+// Verificando se o sinal de verbosidade é igual a 1,
+// se sim, os passos serão impressos na tela.
     if (verboso) printf("\n%7s disk %d from %c to %c", "Move", n, orig->id, dest->id);
-    resolve_jogo(n-1, aux, dest, orig, verboso);         
+// Aqui, novamente, outra chamada recursiva.
+    resolve_jogo(n-1, aux, orig, dest, verboso);         
 }
