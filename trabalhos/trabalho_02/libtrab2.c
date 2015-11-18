@@ -131,7 +131,7 @@ void free_hanoi(Hanoi *h) {
     free(h);
 }
 
-// Aqui, literalmente, é onde o jogo é resolvido.
+// Aqui, literalmente, é onde o puzzle é resolvido.
 void resolve_jogo(int n, Pino *orig, Pino *aux, Pino *dest, int verboso) {
 // Condição de parada:
 // Quando a quantidade de discos for 0(zero) retorna 'nada'.

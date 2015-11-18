@@ -21,7 +21,7 @@ struct hanoi {
 // Função para criar e retornar uma estrutura do tipo Hanoi*.
 Hanoi* create_hanoi(int);
 
-// Nesta função fica concentrada todo os movimentos do jogo.
+// Nesta função fica concentrada todo os movimentos do puzzle.
 void resolve_jogo(int, Pino*, Pino*, Pino*, int);
 
 // Imprime os pinos com seus discos da torre.
